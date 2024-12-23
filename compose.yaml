@@ -1,0 +1,10 @@
+services:
+  twochi-verifier-be:
+    build: .
+    container_name: twochi-verifier-be
+    ports:
+      - 8000:8000
+    develop:
+      watch:
+        - action: rebuild
+          path: .
