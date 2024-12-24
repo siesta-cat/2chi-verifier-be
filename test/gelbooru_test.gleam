@@ -1,26 +1,22 @@
 import gelbooru
-import gleam/function
 import gleam/json
 import gleeunit/should
 
 pub fn gelbooru_decode_test() {
-  let data = gelbooru_test_data()
-  gelbooru.decode(data) |> should.be_ok
+  let urls = ["url1", "url2"]
+  let data = gelbooru_test_data(urls)
+
+  gelbooru.decode(data) |> should.equal(Ok(urls))
 }
 
-fn gelbooru_test_data() -> String {
+fn gelbooru_test_data(urls: List(String)) -> String {
   json.object([
     #("@attributes", json.object([])),
     #(
       "post",
-      json.array(
-        [
-          json.object([#("file_url", json.string("https://image1.com"))]),
-          json.object([#("file_url", json.string("https://image2.com"))]),
-          json.object([#("file_url", json.string("https://image3.com"))]),
-        ],
-        function.identity,
-      ),
+      json.array(urls, fn(url) {
+        json.object([#("file_url", json.string(url))])
+      }),
     ),
   ])
   |> json.to_string
