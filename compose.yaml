@@ -2,6 +2,7 @@ services:
   twochi-verifier-be:
     build: .
     container_name: twochi-verifier-be
+    stop_signal: sigkill
     ports:
       - 8000:8000
     develop:
