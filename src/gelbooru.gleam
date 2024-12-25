@@ -2,17 +2,21 @@ import gleam/dynamic
 import gleam/http/request
 import gleam/httpc
 import gleam/json
-import gleam/list
 import gleam/result
 
-const url = "https://gelbooru.com/index.php?page=dapi&s=post&q=index&json=1&tags=sleeping%202girl&pid=0&limit=1"
+const url = "https://gelbooru.com/index.php?page=dapi&s=post&q=index&json=1&tags=sleeping%202girl&pid=0"
 
-pub fn fetch_image() -> Result(String, Nil) {
-  use req <- result.try(request.to(url))
-  use resp <- result.try(httpc.send(req) |> result.replace_error(Nil))
-  use images <- result.try(decode(resp.body) |> result.replace_error(Nil))
-  use image <- result.try(list.first(images))
-  Ok(image)
+pub fn fetch_image() -> Result(List(String), String) {
+  use req <- result.try(
+    request.to(url) |> result.replace_error("Failed to parse url"),
+  )
+  use resp <- result.try(
+    httpc.send(req) |> result.replace_error("Failed to make request"),
+  )
+  use urls <- result.try(
+    decode(resp.body) |> result.replace_error("Failed to decode response"),
+  )
+  Ok(urls)
 }
 
 pub fn decode(json_string: String) -> Result(List(String), json.DecodeError) {

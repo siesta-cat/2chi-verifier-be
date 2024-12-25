@@ -1,3 +1,4 @@
+import cache
 import gleam/erlang/process
 import mist
 import router
@@ -8,8 +9,10 @@ pub fn main() {
   wisp.configure_logger()
   let secret_key_base = wisp.random_string(64)
 
+  let cache = cache.new()
+
   let assert Ok(_) =
-    wisp_mist.handler(router.handle_request, secret_key_base)
+    wisp_mist.handler(router.handle_request(_, cache), secret_key_base)
     |> mist.new
     |> mist.port(8000)
     |> mist.bind("0.0.0.0")
