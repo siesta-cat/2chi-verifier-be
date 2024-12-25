@@ -19,13 +19,13 @@ pub fn handle_request(req: Request, cache: cache.ImageCache) -> Response {
 fn get_image(req: Request, cache: cache.ImageCache) -> Response {
   use <- wisp.require_method(req, Get)
 
-  case fetch_images(cache) {
+  case fetch_image(cache) {
     Ok(resp) -> resp
     Error(msg) -> panic as msg
   }
 }
 
-fn fetch_images(cache: cache.ImageCache) -> Result(Response, String) {
+fn fetch_image(cache: cache.ImageCache) -> Result(Response, String) {
   use image <- result.try(cache.next(cache))
 
   let json =
