@@ -9,6 +9,7 @@ RUN gleam export erlang-shipment
 
 FROM ghcr.io/gleam-lang/gleam:v1.6.3-erlang-slim AS final
 WORKDIR /app
+RUN apt update && apt install ca-certificates -y
 COPY --from=build /app/build/erlang-shipment .
 
 EXPOSE 8000
