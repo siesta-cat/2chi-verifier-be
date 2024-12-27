@@ -1,4 +1,4 @@
-import gelbooru
+import api/gelbooru
 import gleam/json
 import gleeunit/should
 
