@@ -1,11 +1,11 @@
 import api/bot
 import api/gelbooru
-import cache
 import config
 import gleam/erlang/process
 import gleam/set
 import mist
 import router
+import url_provider
 import wisp
 import wisp/wisp_mist
 
@@ -18,10 +18,10 @@ pub fn main() {
     Error(msg) -> panic as msg
   }
 
-  let cache = cache.new(gelbooru.get_images_page, bot_urls)
+  let provider = url_provider.new(gelbooru.get_images_page, bot_urls)
 
   let assert Ok(_) =
-    wisp_mist.handler(router.handle_request(_, cache), secret_key_base)
+    wisp_mist.handler(router.handle_request(_, provider), secret_key_base)
     |> mist.new
     |> mist.port(8000)
     |> mist.bind("0.0.0.0")

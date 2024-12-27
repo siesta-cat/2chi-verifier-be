@@ -1,32 +1,39 @@
-import cache
 import gleam/list
 import gleam/result
 import gleam/set
 import gleam/yielder
 import gleeunit/should
+import url_provider
 import wisp
 
-pub fn cache_server_from_different_pages_test() {
+pub fn provider_serves_from_different_pages_test() {
   let pages = pages_from_sizes([2, 3, 5])
-  let cache = cache.new(fetcher_stub(pages, _), set.new())
+  let provider = url_provider.new(fetcher_stub(pages, _), set.new())
   let urls = list.flatten(pages) |> set.from_list()
 
   let actual =
-    Ok(set.map(urls, fn(_) { cache.next(cache) |> result.unwrap("") }))
+    Ok(
+      set.map(urls, fn(_) { url_provider.next(provider) |> result.unwrap("") }),
+    )
 
   actual |> should.equal(Ok(urls))
 }
 
-pub fn cache_filters_bot_images_test() {
+pub fn provider_filters_bot_images_test() {
   let filter_url = random_url()
   let urls = set.from_list([filter_url, random_url(), random_url()])
   let pages = [set.to_list(urls)]
-  let cache = cache.new(fetcher_stub(pages, _), set.from_list([filter_url]))
+  let provider =
+    url_provider.new(fetcher_stub(pages, _), set.from_list([filter_url]))
   let filtered_urls = set.filter(urls, fn(url) { url != filter_url })
 
   // TODO: do something like "run_times" instead of using the list size to do that
   let actual =
-    Ok(set.map(filtered_urls, fn(_) { cache.next(cache) |> result.unwrap("") }))
+    Ok(
+      set.map(filtered_urls, fn(_) {
+        url_provider.next(provider) |> result.unwrap("")
+      }),
+    )
 
   actual |> should.equal(Ok(filtered_urls))
 }
