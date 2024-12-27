@@ -5,10 +5,12 @@ import gleam/int
 import gleam/json
 import gleam/result
 
-pub fn fetch_image(page_id: Int) -> Result(List(String), String) {
+pub fn get_images_page(page_id: Int) -> Result(List(String), String) {
+  let url = compose_url(page_id)
+
   use req <- result.try(
     request.to(compose_url(page_id))
-    |> result.replace_error("Failed to parse url"),
+    |> result.replace_error("Failed to parse url '" <> url <> "'"),
   )
   use resp <- result.try(
     httpc.send(req) |> result.replace_error("Failed to make request"),

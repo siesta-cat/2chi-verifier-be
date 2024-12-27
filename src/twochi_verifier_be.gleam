@@ -1,5 +1,5 @@
+import api/gelbooru
 import cache
-import gelbooru
 import gleam/erlang/process
 import mist
 import router
@@ -10,7 +10,7 @@ pub fn main() {
   wisp.configure_logger()
   let secret_key_base = wisp.random_string(64)
 
-  let cache = cache.new(gelbooru.fetch_image)
+  let cache = cache.new(gelbooru.get_images_page)
 
   let assert Ok(_) =
     wisp_mist.handler(router.handle_request(_, cache), secret_key_base)
