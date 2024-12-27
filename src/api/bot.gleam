@@ -1,14 +1,12 @@
 import config
 import gleam/dynamic
-import gleam/erlang/port
 import gleam/http/request
 import gleam/httpc
 import gleam/json
 import gleam/result
-import gleam/uri
 
 pub fn get_all(config: config.AppConfig) -> Result(List(String), String) {
-  let url = config.bot_api_base_url <> "/image"
+  let url = config.bot_api_base_url <> "/images"
 
   use req <- result.try(
     request.to(url)
@@ -17,6 +15,7 @@ pub fn get_all(config: config.AppConfig) -> Result(List(String), String) {
   use resp <- result.try(
     httpc.send(req) |> result.replace_error("Failed to make request"),
   )
+
   use urls <- result.try(
     decode(resp.body) |> result.replace_error("Failed to decode response"),
   )
