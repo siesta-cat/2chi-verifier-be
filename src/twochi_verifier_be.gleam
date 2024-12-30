@@ -11,21 +11,26 @@ import wisp/wisp_mist
 
 pub fn main() {
   wisp.configure_logger()
+
   let secret_key_base = wisp.random_string(64)
 
-  let bot_urls = case bot.get_all(config.AppConfig("http://cottonee:30000")) {
-    Ok(urls) -> set.from_list(urls)
-    Error(msg) -> panic as msg
-  }
-
-  let provider = url_provider.new(gelbooru.get_images_page, bot_urls)
+  let assert Ok(config) = config.load_from_env()
 
   let assert Ok(_) =
-    wisp_mist.handler(router.handle_request(_, provider), secret_key_base)
+    wisp_mist.handler(
+      router.handle_request(_, setup_provider(config)),
+      secret_key_base,
+    )
     |> mist.new
     |> mist.port(8000)
     |> mist.bind("0.0.0.0")
     |> mist.start_http
 
   process.sleep_forever()
+}
+
+fn setup_provider(config: config.AppConfig) -> url_provider.UrlProvider {
+  let assert Ok(filter_urls) = bot.get_all(config)
+
+  url_provider.new(gelbooru.get_images_page, set.from_list(filter_urls))
 }
