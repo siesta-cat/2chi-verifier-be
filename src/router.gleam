@@ -33,7 +33,7 @@ fn fetch_image(provider: UrlProvider) -> Result(Response, String) {
       #("url", json.string(image)),
       #("token", json.string("chicatoken")),
     ])
-    |> json.to_string_builder
+    |> json.to_string_tree
 
   Ok(wisp.json_response(json, 200))
 }
