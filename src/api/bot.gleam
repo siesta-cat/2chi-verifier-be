@@ -4,13 +4,16 @@ import gleam/http/request
 import gleam/httpc
 import gleam/json
 import gleam/result
+import wisp
 
 pub fn get_all(config: config.AppConfig) -> Result(List(String), String) {
   let url = config.bot_api_base_url <> "/images"
 
+  wisp.log_info("Loading URLs from bot API...")
+
   use req <- result.try(
     request.to(url)
-    |> result.replace_error("Failed to parse url '" <> url <> "'"),
+    |> result.replace_error("Failed to parse URL '" <> url <> "'"),
   )
   use resp <- result.try(
     httpc.send(req) |> result.replace_error("Failed to make request"),
