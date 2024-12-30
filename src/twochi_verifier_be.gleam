@@ -15,14 +15,12 @@ pub fn main() {
   let secret_key_base = wisp.random_string(64)
 
   let assert Ok(config) = config.load_from_env()
+  let provider = setup_provider(config)
 
   let assert Ok(_) =
-    wisp_mist.handler(
-      router.handle_request(_, setup_provider(config)),
-      secret_key_base,
-    )
+    wisp_mist.handler(router.handle_request(_, provider), secret_key_base)
     |> mist.new
-    |> mist.port(8000)
+    |> mist.port(config.port)
     |> mist.bind("0.0.0.0")
     |> mist.start_http
 

@@ -1,21 +1,25 @@
-import decode
-import gleam/dynamic
 import gleam/result
+import glenvy/dotenv
+import glenvy/env
 
-// TODO: Add port
 pub type AppConfig {
-  AppConfig(bot_api_base_url: String)
+  AppConfig(bot_api_base_url: String, port: Int)
 }
 
 pub fn load_from_env() -> Result(AppConfig, String) {
+  let _ = dotenv.load()
   use bot_api_base_url <- result.try(read_env_var(
     "BOT_API_BASE_URL",
-    decode.string,
+    env.get_string,
   ))
-  Ok(AppConfig(bot_api_base_url:))
+  use port <- result.try(read_env_var("PORT", env.get_int))
+  Ok(AppConfig(bot_api_base_url:, port:))
 }
 
-fn read_env_var(name: String, decoder: decode.Decoder(a)) -> Result(a, String) {
-  decode.from(decoder, dynamic.from(name))
-  |> result.map_error(fn(_) { "Invalid value of env var '" <> name <> "'" })
+fn read_env_var(
+  name: String,
+  read_fun: fn(String) -> Result(a, env.Error),
+) -> Result(a, String) {
+  read_fun(name)
+  |> result.replace_error("Incorrect value for env var '" <> name <> "'")
 }
