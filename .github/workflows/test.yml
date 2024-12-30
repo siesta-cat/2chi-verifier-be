@@ -14,7 +14,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: erlef/setup-beam@5304e04ea2b355f03681464e683d92e3b2f18451
+      - uses: erlef/setup-beam@e5b66193a0ae8fd3e4c0296f0c7a1c7d36241444
         with:
           otp-version: "27.1.2"
           gleam-version: "1.6.3"
