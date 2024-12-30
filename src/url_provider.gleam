@@ -54,7 +54,7 @@ fn repopulate(provider: UrlProvider) -> Result(Nil, String) {
   increment_current_page_id(provider)
   uset.insert(provider.urls, urls)
   wisp.log_info(
-    "Populated provider with " <> int.to_string(list.length(urls)) <> " urls",
+    "Populated provider with " <> int.to_string(list.length(urls)) <> " URLs",
   )
   Ok(Nil)
 }
