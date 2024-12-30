@@ -9,7 +9,7 @@ import router
 import url_provider
 import wisp/testing
 
-pub fn get_images_gives_status_200_test() {
+pub fn get_image_gives_status_200_test() {
   let provider = url_provider.new(gelbooru.get_images_page, set.new())
 
   let response = router.handle_request(testing.get("/image", []), provider)
@@ -17,7 +17,7 @@ pub fn get_images_gives_status_200_test() {
   response.status |> should.equal(200)
 }
 
-pub fn get_images_gives_correct_json_response_test() {
+pub fn get_image_gives_correct_json_response_test() {
   let provider = url_provider.new(gelbooru.get_images_page, set.new())
 
   let json =
