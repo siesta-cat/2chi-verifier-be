@@ -26,7 +26,7 @@ fn compose_url(page_id: Int) {
   <> int.to_string(page_id)
 }
 
-pub fn decode(json_string: String) -> Result(List(String), json.DecodeError) {
+fn decode(json_string: String) -> Result(List(String), json.DecodeError) {
   json.decode(
     json_string,
     dynamic.field(

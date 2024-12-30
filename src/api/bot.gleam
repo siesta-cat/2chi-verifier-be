@@ -25,7 +25,7 @@ pub fn get_all(config: config.AppConfig) -> Result(List(String), String) {
   Ok(urls)
 }
 
-pub fn decode(json_string: String) -> Result(List(String), json.DecodeError) {
+fn decode(json_string: String) -> Result(List(String), json.DecodeError) {
   json.decode(
     json_string,
     dynamic.field("images", dynamic.list(dynamic.field("url", dynamic.string))),
