@@ -1,5 +1,6 @@
 import api/bot
 import api/gelbooru
+import app
 import config
 import gleam/erlang/process
 import gleam/set
@@ -11,14 +12,18 @@ import wisp/wisp_mist
 
 pub fn main() {
   wisp.configure_logger()
-
   let secret_key_base = wisp.random_string(64)
 
   let assert Ok(config) = config.load_from_env()
-  let provider = setup_provider(config)
+
+  let ctx =
+    app.Context(
+      url_provider: setup_provider(config),
+      token_secret: config.secret,
+    )
 
   let assert Ok(_) =
-    wisp_mist.handler(router.handle_request(_, provider), secret_key_base)
+    wisp_mist.handler(router.handle_request(_, ctx), secret_key_base)
     |> mist.new
     |> mist.port(config.port)
     |> mist.bind("0.0.0.0")

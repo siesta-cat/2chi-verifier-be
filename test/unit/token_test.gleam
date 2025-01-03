@@ -1,4 +1,3 @@
-import gleam/io
 import gleeunit/should
 import token
 
