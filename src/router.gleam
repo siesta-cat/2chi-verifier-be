@@ -1,5 +1,5 @@
 import app
-import gleam/http.{Get}
+import gleam/http
 import gleam/json
 import gleam/result
 import token
@@ -19,7 +19,7 @@ pub fn handle_request(req: Request, ctx: app.Context) -> Response {
 }
 
 fn get_image(req: Request, ctx: app.Context) -> Response {
-  use <- wisp.require_method(req, Get)
+  use <- wisp.require_method(req, http.Get)
 
   case fetch_image(ctx) {
     Ok(resp) -> resp
