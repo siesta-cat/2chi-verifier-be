@@ -1,7 +1,6 @@
 import api/gelbooru
 import app
 import gleam/dynamic
-import gleam/io
 import gleam/json
 import gleam/result
 import gleam/set
