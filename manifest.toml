@@ -35,6 +35,7 @@ packages = [
 [requirements]
 bravo = { version = "== 4.0.1" }
 decode = { version = "== 1.1.0" }
+gleam_crypto = { version = ">= 1.4.0 and < 2.0.0" }
 gleam_erlang = { version = "== 0.33.0" }
 gleam_http = { version = "== 3.7.2" }
 gleam_httpc = { version = "== 4.0.0" }
