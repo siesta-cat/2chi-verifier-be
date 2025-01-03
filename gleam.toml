@@ -25,6 +25,7 @@ bravo = "== 4.0.1"
 gleam_yielder = "== 1.1.0"
 glenvy = "== 1.2.0"
 gleam_crypto = "== 1.4.0"
+given = ">= 4.1.1 and < 5.0.0"
 
 [dev-dependencies]
 gleeunit = "== 1.2.0"

@@ -7,6 +7,7 @@ pub fn generate(secret: BitArray, url: String) -> String {
   |> crypto.sign_message(secret, crypto.Sha512)
 }
 
+// TODO: this should have in account the url too
 pub fn validate(secret: BitArray, token: String) -> Bool {
   crypto.verify_signed_message(token, secret) |> result.is_ok
 }
