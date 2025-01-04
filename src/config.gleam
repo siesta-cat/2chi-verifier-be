@@ -1,13 +1,10 @@
+import app
 import gleam/bit_array
 import gleam/result
 import glenvy/dotenv
 import glenvy/env
 
-pub type AppConfig {
-  AppConfig(bot_api_base_url: String, port: Int, secret: BitArray)
-}
-
-pub fn load_from_env() -> Result(AppConfig, String) {
+pub fn load_from_env() -> Result(app.Config, String) {
   let _ = dotenv.load()
 
   use bot_api_base_url <- result.try(read_env_var(
@@ -23,7 +20,7 @@ pub fn load_from_env() -> Result(AppConfig, String) {
     |> result.replace_error("Could not decode from base64"),
   )
 
-  Ok(AppConfig(bot_api_base_url:, port:, secret:))
+  Ok(app.Config(bot_api_base_url:, port:, secret:))
 }
 
 fn read_env_var(

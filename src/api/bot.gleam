@@ -1,4 +1,4 @@
-import config
+import app
 import gleam/dynamic
 import gleam/http/request
 import gleam/httpc
@@ -6,7 +6,7 @@ import gleam/json
 import gleam/result
 import wisp
 
-pub fn get_all(config: config.AppConfig) -> Result(List(String), String) {
+pub fn get_all(config: app.Config) -> Result(List(String), String) {
   let url = config.bot_api_base_url <> "/images"
 
   wisp.log_info("Loading URLs from bot API...")

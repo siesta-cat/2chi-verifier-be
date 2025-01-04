@@ -32,7 +32,7 @@ pub fn main() {
   process.sleep_forever()
 }
 
-fn setup_provider(config: config.AppConfig) -> url_provider.UrlProvider {
+fn setup_provider(config: app.Config) -> url_provider.UrlProvider {
   let assert Ok(filter_urls) = bot.get_all(config)
 
   url_provider.new(gelbooru.get_images_page, set.from_list(filter_urls))
