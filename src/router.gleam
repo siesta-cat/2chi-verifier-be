@@ -49,14 +49,15 @@ fn post_image_review(req: Request, ctx: app.Context) -> Response {
     decode.success(#(url, token, is_accepted))
   }
 
-  use #(_url, token, _is_accepted) <- given.ok_in(
+  use #(url, token, _is_accepted) <- given.ok_in(
     decode.run(json, decoder),
     else_return: fn(_) { wisp.bad_request() },
   )
 
-  use <- given.not_given(token.validate(ctx.token_secret, token), return: fn() {
-    wisp.bad_request()
-  })
+  use <- given.not_given(
+    token.validate(ctx.token_secret, url, token),
+    return: fn() { wisp.bad_request() },
+  )
 
   wisp.created()
 }

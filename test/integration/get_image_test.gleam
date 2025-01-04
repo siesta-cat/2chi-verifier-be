@@ -31,6 +31,7 @@ pub fn get_image_response_test() {
   response.status |> should.equal(200)
   url |> should.be_ok()
   token |> should.be_ok()
+  let assert Ok(url) = url
   let assert Ok(token) = token
-  token.validate(token_secret, token) |> should.be_true
+  token.validate(token_secret, uri.to_string(url), token) |> should.be_true
 }

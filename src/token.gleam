@@ -7,7 +7,8 @@ pub fn generate(secret: BitArray, url: String) -> String {
   |> crypto.sign_message(secret, crypto.Sha512)
 }
 
-// TODO: this should have in account the url too
-pub fn validate(secret: BitArray, token: String) -> Bool {
-  crypto.verify_signed_message(token, secret) |> result.is_ok
+pub fn validate(secret: BitArray, url: String, token: String) -> Bool {
+  let msg = crypto.verify_signed_message(token, secret)
+  result.map(msg, fn(msg) { msg == bit_array.from_string(url) })
+  |> result.unwrap(False)
 }
