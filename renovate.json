@@ -9,7 +9,8 @@
       "fileMatch": ["^.github/workflows/test.yml$"],
       "matchStrings": ["/gleam-version: \"(?<currentValue>.*?)\""],
       "depNameTemplate": "gleam-lang/gleam",
-      "datasourceTemplate": "github-tags"
+      "datasourceTemplate": "docker",
+      "versioningTemplate": "{{#if versioning}}{{versioning}}{{else}}docker{{/if}}"
     }
   ]
 }
