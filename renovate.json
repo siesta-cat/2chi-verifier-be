@@ -2,5 +2,15 @@
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": ["config:recommended", "helpers:pinGitHubActionDigests"],
   "rangeStrategy": "pin",
-  "automerge": true
+  "automerge": true,
+  "customManagers": [
+    {
+      "customType": "regex",
+      "fileMatch": ["^.github/workflows/test.yml$"],
+      "matchStrings": ["/gleam-version: \"(?<currentValue>.*?)\"\\n"],
+      "depNameTemplate": "gleam",
+      "datasourceTemplate": "github-releases",
+      "registryUrlTemplate": "gleam-lang/gleam"
+    }
+  ]
 }
