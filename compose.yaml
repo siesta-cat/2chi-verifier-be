@@ -1,6 +1,9 @@
 services:
   twochi-verifier-be:
-    build: .
+    build:
+      context: .
+      target: deps
+    command: ["gleam", "run"]
     container_name: twochi-verifier-be
     stop_signal: sigkill
     ports:
@@ -10,3 +13,29 @@ services:
       watch:
         - action: rebuild
           path: .
+
+  mongodb:
+    image: mongo:bionic
+    container_name: mongodb
+    ports:
+      - "27017:27017"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: password
+      MONGO_INITDB_DATABASE: bot
+    volumes:
+      - ./init-mongo.js:/docker-entrypoint-initdb.d/init-mongo.js:ro
+
+  bot-api:
+    image: git.fai.st/fedi-image-bot/bot-api:latest
+    container_name: bot-api
+    ports:
+      - "8080:8080"
+    depends_on:
+      - mongodb
+    environment:
+      PORT: 8080
+      MONGODB_URI: "mongodb://mongodb:27017/bot"
+      MONGODB_USER: "root"
+      MONGODB_PASS: "password"
+      JWTSECRET: "cooljwtsecret"

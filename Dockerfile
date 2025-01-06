@@ -1,10 +1,14 @@
-FROM ghcr.io/gleam-lang/gleam:v1.7.0-erlang-slim AS build
+FROM ghcr.io/gleam-lang/gleam:v1.7.0-erlang-slim AS deps
 WORKDIR /app
+RUN apt update && apt install ca-certificates -y
 
-COPY gleam.toml manifest.toml .
+COPY gleam.toml manifest.toml ./
 RUN gleam update
 
 COPY ./src/ ./src/
+RUN gleam build
+
+FROM deps AS build
 RUN gleam export erlang-shipment
 
 FROM ghcr.io/gleam-lang/gleam:v1.7.0-erlang-slim AS final
