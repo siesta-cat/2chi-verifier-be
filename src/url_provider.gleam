@@ -8,6 +8,8 @@ import wisp
 
 const page_id = "page_id"
 
+/// Fetcher acts as a wrapper for paginated APIs that provide URL resources.
+/// It receives an Int, that indicates the page, and returns a list of URLs
 type Fetcher =
   fn(Int) -> Result(List(String), String)
 
