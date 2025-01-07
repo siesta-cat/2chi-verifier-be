@@ -15,12 +15,5 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4
-      - uses: erlef/setup-beam@e5b66193a0ae8fd3e4c0296f0c7a1c7d36241444
-        with:
-          otp-version: "27.1.2"
-          gleam-version: "1.6.3"
-          rebar3-version: "3"
-          # elixir-version: "1.15.4"
-      - run: gleam deps download
-      - run: gleam test
       - run: gleam format --check src test
+      - run: docker compose run --build twochi-verifier-be gleam test
