@@ -6,6 +6,9 @@ COPY gleam.toml manifest.toml ./
 RUN gleam update
 
 COPY ./src/ ./src/
+
+FROM deps AS test
+COPY ./test/ ./test/
 RUN gleam build
 
 FROM deps AS build

@@ -13,10 +13,13 @@ import wisp/testing
 
 pub fn get_image_response_test() {
   let token_secret = <<"secret">>
+  let config =
+    app.Config(bot_api_base_url: "", port: 0, api_app_name: "", api_secret: "", token_secret:)
   let ctx =
     app.Context(
       url_provider: url_provider.new(gelbooru.get_images_page, set.new()),
-      token_secret:,
+      auth_token: "",
+      config:,
     )
 
   let response = router.handle_request(testing.get("/image", []), ctx)

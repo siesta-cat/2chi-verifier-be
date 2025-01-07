@@ -1,7 +1,9 @@
+import api/bot
 import app
 import given
 import gleam/dynamic/decode
 import gleam/http
+import gleam/io
 import gleam/json
 import token
 import url_provider
@@ -30,7 +32,7 @@ fn get_image(req: Request, ctx: app.Context) -> Response {
     },
   )
 
-  let token = token.generate(ctx.token_secret, url)
+  let token = token.generate(ctx.config.token_secret, url)
   let json =
     json.object([#("url", json.string(url)), #("token", json.string(token))])
     |> json.to_string_tree
@@ -49,14 +51,31 @@ fn post_image_review(req: Request, ctx: app.Context) -> Response {
     decode.success(#(url, token, is_accepted))
   }
 
-  use #(url, token, _is_accepted) <- given.ok_in(
+  use #(url, token, is_accepted) <- given.ok_in(
     decode.run(json, decoder),
-    else_return: fn(_) { wisp.bad_request() },
+    else_return: fn(_) {
+      io.println("Could not decode JSON body")
+      wisp.log_error("Could not decode JSON body")
+      wisp.bad_request()
+    },
   )
 
   use <- given.not_given(
-    token.validate(ctx.token_secret, url, token),
+    token.validate(ctx.config.token_secret, url, token),
     return: fn() { wisp.bad_request() },
+  )
+
+  use _ <- given.ok_in(
+    bot.post_image_review(
+      ctx.config.bot_api_base_url,
+      url,
+      is_accepted,
+      ctx.auth_token,
+    ),
+    else_return: fn(msg) {
+      wisp.log_error(msg)
+      wisp.internal_server_error()
+    },
   )
 
   wisp.created()

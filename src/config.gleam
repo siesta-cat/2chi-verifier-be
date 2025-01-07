@@ -14,13 +14,16 @@ pub fn load_from_env() -> Result(app.Config, String) {
 
   use port <- result.try(read_env_var("PORT", env.get_int))
 
-  use secret <- result.try(read_env_var("TOKEN_SECRET", env.get_string))
-  use secret <- result.try(
-    bit_array.base64_decode(secret)
+  use token_secret <- result.try(read_env_var("TOKEN_SECRET", env.get_string))
+  use token_secret <- result.try(
+    bit_array.base64_decode(token_secret)
     |> result.replace_error("Could not decode from base64"),
   )
 
-  Ok(app.Config(bot_api_base_url:, port:, secret:))
+  use api_app_name <- result.try(read_env_var("API_APP_NAME", env.get_string))
+  use api_secret <- result.try(read_env_var("API_SECRET", env.get_string))
+
+  Ok(app.Config(bot_api_base_url:, port:, api_app_name:, api_secret:, token_secret:))
 }
 
 fn read_env_var(

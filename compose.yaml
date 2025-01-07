@@ -2,12 +2,14 @@ services:
   twochi-verifier-be:
     build:
       context: .
-      target: deps
+      target: test
     command: ["gleam", "run"]
     container_name: twochi-verifier-be
     stop_signal: sigkill
     ports:
       - 8000:8000
+    depends_on:
+      - bot-api
     env_file: .env
     develop:
       watch:
