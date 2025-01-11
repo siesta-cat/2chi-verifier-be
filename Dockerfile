@@ -1,6 +1,5 @@
-FROM ghcr.io/gleam-lang/gleam:v1.7.0-erlang-slim AS deps
+FROM --platform=$BUILDPLATFORM ghcr.io/gleam-lang/gleam:v1.7.0-erlang-slim AS deps
 WORKDIR /app
-RUN apt update && apt install ca-certificates -y
 
 COPY gleam.toml manifest.toml ./
 RUN gleam update
@@ -8,6 +7,7 @@ RUN gleam update
 COPY ./src/ ./src/
 
 FROM deps AS test
+RUN apt update && apt install ca-certificates -y
 COPY ./test/ ./test/
 RUN gleam build
 
