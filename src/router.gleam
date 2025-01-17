@@ -24,8 +24,8 @@ pub fn handle_request(req: Request, ctx: app.Context) -> Response {
 fn get_image(req: Request, ctx: app.Context) -> Response {
   use <- wisp.require_method(req, http.Get)
 
-  use url <- given.ok_in(
-    url_provider.next(ctx.url_provider),
+  use url <- given.ok(
+    in: url_provider.next(ctx.url_provider),
     else_return: fn(msg) {
       wisp.log_error(msg)
       wisp.internal_server_error()
@@ -51,8 +51,8 @@ fn post_image_review(req: Request, ctx: app.Context) -> Response {
     decode.success(#(url, token, is_accepted))
   }
 
-  use #(url, token, is_accepted) <- given.ok_in(
-    decode.run(json, decoder),
+  use #(url, token, is_accepted) <- given.ok(
+    in: decode.run(json, decoder),
     else_return: fn(_) {
       io.println("Could not decode JSON body")
       wisp.log_error("Could not decode JSON body")
@@ -60,13 +60,13 @@ fn post_image_review(req: Request, ctx: app.Context) -> Response {
     },
   )
 
-  use <- given.not_given(
-    token.validate(ctx.config.token_secret, url, token),
+  use <- given.not(
+    the_case: token.validate(ctx.config.token_secret, url, token),
     return: fn() { wisp.bad_request() },
   )
 
-  use _ <- given.ok_in(
-    bot.post_image_review(
+  use _ <- given.ok(
+    in: bot.post_image_review(
       ctx.config.bot_api_base_url,
       url,
       is_accepted,
