@@ -28,4 +28,4 @@ gleam_crypto = "== 1.4.0"
 given = "== 5.0.2"
 
 [dev-dependencies]
-gleeunit = "== 1.2.0"
+gleeunit = "== 1.3.0"
