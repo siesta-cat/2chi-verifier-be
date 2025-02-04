@@ -38,7 +38,7 @@ jobs:
         with:
           generate_release_notes: true
           make_latest: true
-          tag_name: needs.tag.outputs.tag
+          tag_name: ${{ needs.tag.outputs.tag }}
       - name: 🔧 Docker meta
         id: meta
         uses: docker/metadata-action@369eb591f429131d6889c46b94e711f089e6ca96 # v5
