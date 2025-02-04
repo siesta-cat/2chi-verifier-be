@@ -1,4 +1,4 @@
-import gleam/dynamic
+import gleam/dynamic/decode
 import gleam/http
 import gleam/http/request
 import gleam/httpc
@@ -94,8 +94,14 @@ pub fn post_login(
   use resp <- result.try(
     httpc.send(req) |> result.replace_error("Failed to make request"),
   )
+
+  let token_decoder = {
+    use token_decoder <- decode.field("token", decode.string)
+    decode.success(token_decoder)
+  }
+
   use token <- result.try(
-    json.decode(resp.body, dynamic.field("token", dynamic.string))
+    json.parse(resp.body, token_decoder)
     |> result.replace_error("Failed to decode token"),
   )
 
@@ -103,8 +109,15 @@ pub fn post_login(
 }
 
 fn decode(json_string: String) -> Result(List(String), json.DecodeError) {
-  json.decode(
-    json_string,
-    dynamic.field("images", dynamic.list(dynamic.field("url", dynamic.string))),
-  )
+  let url_decoder = {
+    use field <- decode.field("url", decode.string)
+    decode.success(field)
+  }
+
+  let images_decoder = {
+    use images <- decode.field("images", decode.list(url_decoder))
+    decode.success(images)
+  }
+
+  json.parse(json_string, images_decoder)
 }

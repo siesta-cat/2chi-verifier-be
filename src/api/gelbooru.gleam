@@ -1,4 +1,4 @@
-import gleam/dynamic
+import gleam/dynamic/decode
 import gleam/http/request
 import gleam/httpc
 import gleam/int
@@ -27,11 +27,15 @@ fn compose_url(page_id: Int) {
 }
 
 fn decode(json_string: String) -> Result(List(String), json.DecodeError) {
-  json.decode(
-    json_string,
-    dynamic.field(
-      "post",
-      dynamic.list(dynamic.field("file_url", dynamic.string)),
-    ),
-  )
+  let url_decoder = {
+    use field <- decode.field("file_url", decode.string)
+    decode.success(field)
+  }
+
+  let post_decoder = {
+    use post <- decode.field("post", decode.list(url_decoder))
+    decode.success(post)
+  }
+
+  json.parse(json_string, post_decoder)
 }
