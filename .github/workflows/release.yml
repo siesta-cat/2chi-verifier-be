@@ -24,7 +24,6 @@ jobs:
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           default_bump: false
-  # TODO: make a gh release too
   release:
     name: Build and Push 🚀
     runs-on: ubuntu-latest
