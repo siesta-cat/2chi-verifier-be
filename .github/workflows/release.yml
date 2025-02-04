@@ -29,7 +29,7 @@ jobs:
     name: Build and Push 🚀
     runs-on: ubuntu-latest
     needs: tag
-    if: needs.tag.outputs.tag != 'null'
+    if: needs.tag.outputs.tag != null
     steps:
       - name: 🔽 Checkout
         uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4
@@ -44,7 +44,7 @@ jobs:
         uses: docker/metadata-action@369eb591f429131d6889c46b94e711f089e6ca96 # v5
         with:
           # list of Docker images to use as base name for tags
-          images: ghcr.io/siesta-cat/2chi-verifier-be
+          images: ghcr.io/${{ github.repository }}
           # generate Docker tags based on the following events/attributes
           tags: |
             type=raw,value=latest
