@@ -5,6 +5,7 @@ import gleam/dynamic/decode
 import gleam/http
 import gleam/io
 import gleam/json
+import gleam/string_tree
 import token
 import url_provider
 import wisp.{type Request, type Response}
@@ -15,6 +16,7 @@ pub fn handle_request(req: Request, ctx: app.Context) -> Response {
   use req <- wisp.handle_head(req)
 
   case wisp.path_segments(req) {
+    ["health"] -> wisp.html_response(string_tree.from_string("Ready"), 200)
     ["image"] -> get_image(req, ctx)
     ["image", "review"] -> post_image_review(req, ctx)
     _ -> wisp.not_found()
