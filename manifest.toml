@@ -30,7 +30,7 @@ packages = [
   { name = "platform", version = "1.0.0", build_tools = ["gleam"], requirements = [], otp_app = "platform", source = "hex", outer_checksum = "8339420A95AD89AAC0F82F4C3DB8DD401041742D6C3F46132A8739F6AEB75391" },
   { name = "simplifile", version = "2.2.0", build_tools = ["gleam"], requirements = ["filepath", "gleam_stdlib"], otp_app = "simplifile", source = "hex", outer_checksum = "0DFABEF7DC7A9E2FF4BB27B108034E60C81BEBFCB7AB816B9E7E18ED4503ACD8" },
   { name = "telemetry", version = "1.3.0", build_tools = ["rebar3"], requirements = [], otp_app = "telemetry", source = "hex", outer_checksum = "7015FC8919DBE63764F4B4B87A95B7C0996BD539E0D499BE6EC9D7F3875B79E6" },
-  { name = "wisp", version = "1.5.2", build_tools = ["gleam"], requirements = ["directories", "exception", "gleam_crypto", "gleam_erlang", "gleam_http", "gleam_json", "gleam_stdlib", "logging", "marceau", "mist", "simplifile"], otp_app = "wisp", source = "hex", outer_checksum = "F4E8B16F979E6BB29E4C9A7E90A3BDAC5E21F9D25EDBEE1193292971825C47A8" },
+  { name = "wisp", version = "1.5.3", build_tools = ["gleam"], requirements = ["directories", "exception", "gleam_crypto", "gleam_erlang", "gleam_http", "gleam_json", "gleam_stdlib", "logging", "marceau", "mist", "simplifile"], otp_app = "wisp", source = "hex", outer_checksum = "DCD083E0ED3D30EA8CF2EECCA01A8108F7987D7BD908F527862E3D2725436444" },
 ]
 
 [requirements]
@@ -47,4 +47,4 @@ gleam_yielder = { version = "== 1.1.0" }
 gleeunit = { version = "== 1.3.0" }
 glenvy = { version = "== 1.2.0" }
 mist = { version = "== 4.0.5" }
-wisp = { version = "== 1.5.2" }
+wisp = { version = "== 1.5.3" }
