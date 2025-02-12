@@ -1,5 +1,6 @@
 import api/bot
 import app
+import cors_builder
 import given
 import gleam/dynamic/decode
 import gleam/http
@@ -10,10 +11,19 @@ import token
 import url_provider
 import wisp.{type Request, type Response}
 
+// TODO: add cors workflow test case
+fn cors() {
+  cors_builder.new()
+  |> cors_builder.allow_all_origins
+  |> cors_builder.allow_method(http.Get)
+  |> cors_builder.allow_method(http.Post)
+}
+
 pub fn handle_request(req: Request, ctx: app.Context) -> Response {
   use <- wisp.log_request(req)
   use <- wisp.rescue_crashes
   use req <- wisp.handle_head(req)
+  use req <- cors_builder.wisp_middleware(req, cors())
 
   case wisp.path_segments(req) {
     ["health"] -> wisp.html_response(string_tree.from_string("Ready"), 200)
