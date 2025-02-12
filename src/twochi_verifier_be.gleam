@@ -15,10 +15,8 @@ pub fn main() {
   let secret_key_base = wisp.random_string(64)
 
   let assert Ok(config) = config.load_from_env()
-  let auth_token = get_auth_token(config)
 
-  let ctx =
-    app.Context(url_provider: setup_provider(config), auth_token:, config:)
+  let ctx = app.Context(url_provider: setup_provider(config), config:)
 
   let assert Ok(_) =
     wisp_mist.handler(router.handle_request(_, ctx), secret_key_base)
@@ -34,10 +32,4 @@ fn setup_provider(config: app.Config) -> url_provider.UrlProvider {
   let assert Ok(filter_urls) = bot.get_all(config.bot_api_base_url)
 
   url_provider.new(gelbooru.get_images_page, set.from_list(filter_urls))
-}
-
-fn get_auth_token(config: app.Config) -> String {
-  let assert Ok(token) =
-    bot.post_login(config.bot_api_base_url, config.api_app_name, config.api_secret)
-  token
 }

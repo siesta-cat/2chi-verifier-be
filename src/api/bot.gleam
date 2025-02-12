@@ -30,7 +30,6 @@ pub fn post_image_review(
   bot_api_base_url: String,
   url: String,
   is_accepted: Bool,
-  auth_token: String,
 ) -> Result(Nil, String) {
   use req <- result.try(
     request.to(bot_api_base_url <> "/images")
@@ -49,7 +48,6 @@ pub fn post_image_review(
   let req =
     req
     |> request.set_method(http.Post)
-    |> request.set_header("Authorization", "Bearer " <> auth_token)
     |> request.set_header("content-type", "application/json")
     |> request.set_body(json.to_string(json))
 

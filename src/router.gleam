@@ -68,12 +68,7 @@ fn post_image_review(req: Request, ctx: app.Context) -> Response {
   )
 
   use _ <- given.ok(
-    in: bot.post_image_review(
-      ctx.config.bot_api_base_url,
-      url,
-      is_accepted,
-      ctx.auth_token,
-    ),
+    in: bot.post_image_review(ctx.config.bot_api_base_url, url, is_accepted),
     else_return: fn(msg) {
       wisp.log_error(msg)
       wisp.internal_server_error()

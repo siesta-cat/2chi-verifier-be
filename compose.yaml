@@ -18,7 +18,7 @@ services:
 
   mongodb:
     image: mongo:bionic
-    container_name: mongodb
+    container_name: mongodb-2chi-verifier-be
     ports:
       - "27017:27017"
     environment:
@@ -29,15 +29,16 @@ services:
       - ./init-mongo.js:/docker-entrypoint-initdb.d/init-mongo.js:ro
 
   bot-api:
-    image: git.fai.st/fedi-image-bot/bot-api:v1.0.2
-    container_name: bot-api
+    image: ghcr.io/siesta-cat/2chi-api:v1.0.1
+    container_name: 2chi-api-2chi-verifier-be
+    restart: on-failure
     ports:
-      - "8080:8080"
+      - 8080:8080
     depends_on:
       - mongodb
     environment:
       PORT: 8080
-      MONGODB_URI: "mongodb://mongodb:27017/bot"
-      MONGODB_USER: "root"
-      MONGODB_PASS: "password"
-      JWTSECRET: "cooljwtsecret"
+      DB_HOST: "mongodb"
+      DB_NAME: "bot"
+      DB_USER: "root"
+      DB_PASS: "password"

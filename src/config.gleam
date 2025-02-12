@@ -20,10 +20,7 @@ pub fn load_from_env() -> Result(app.Config, String) {
     |> result.replace_error("Could not decode from base64"),
   )
 
-  use api_app_name <- result.try(read_env_var("API_APP_NAME", env.get_string))
-  use api_secret <- result.try(read_env_var("API_SECRET", env.get_string))
-
-  Ok(app.Config(bot_api_base_url:, port:, api_app_name:, api_secret:, token_secret:))
+  Ok(app.Config(bot_api_base_url:, port:, token_secret:))
 }
 
 fn read_env_var(

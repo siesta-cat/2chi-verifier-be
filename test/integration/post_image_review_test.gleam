@@ -1,4 +1,3 @@
-import api/bot
 import api/gelbooru
 import app
 import config
@@ -10,8 +9,6 @@ import token
 import url_provider
 import wisp
 import wisp/testing
-
-// TODO: use testcontainers for the bot-api
 
 pub fn post_image_review_accepted_test() {
   let #(ctx, body) = post_review_context_and_body(is_accepted: True)
@@ -48,12 +45,9 @@ fn post_review_context_and_body(
   is_accepted is_accepted: Bool,
 ) -> #(app.Context, String) {
   let assert Ok(cfg) = config.load_from_env()
-  let assert Ok(auth_token) =
-    bot.post_login(cfg.bot_api_base_url, cfg.api_app_name, cfg.api_secret)
   let ctx =
     app.Context(
       url_provider: url_provider.new(gelbooru.get_images_page, set.new()),
-      auth_token:,
       config: cfg,
     )
   let url = "https://images.com/" <> wisp.random_string(5)

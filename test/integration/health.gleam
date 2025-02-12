@@ -11,7 +11,6 @@ pub fn get_health_test() {
   let ctx =
     app.Context(
       url_provider: url_provider.new(fn(_) { Ok([]) }, set.new()),
-      auth_token: "",
       config:,
     )
 
