@@ -15,6 +15,7 @@ import wisp.{type Request, type Response}
 fn cors() {
   cors_builder.new()
   |> cors_builder.allow_all_origins
+  |> cors_builder.allow_header("Content-type")
   |> cors_builder.allow_method(http.Get)
   |> cors_builder.allow_method(http.Post)
 }
