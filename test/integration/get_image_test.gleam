@@ -3,7 +3,6 @@ import app
 import gleam/dynamic/decode
 import gleam/json
 import gleam/result
-import gleam/set
 import gleam/uri
 import gleeunit/should
 import router
@@ -16,7 +15,7 @@ pub fn get_image_response_test() {
   let config = app.Config(bot_api_base_url: "", port: 0, token_secret:)
   let ctx =
     app.Context(
-      url_provider: url_provider.new(gelbooru.get_images_page, set.new()),
+      url_provider: url_provider.new(gelbooru.get_images_page, []),
       config:,
     )
 

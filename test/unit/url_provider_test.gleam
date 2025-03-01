@@ -8,7 +8,7 @@ import wisp
 
 pub fn provider_serves_from_different_pages_test() {
   let pages = pages_from_sizes([2, 3, 5])
-  let provider = url_provider.new(fetcher_stub(pages, _), set.new())
+  let provider = url_provider.new(fetcher_stub(pages, _), [])
   let urls = list.flatten(pages) |> set.from_list()
 
   let actual =
@@ -23,8 +23,7 @@ pub fn provider_filters_bot_images_test() {
   let filter_url = random_url()
   let urls = set.from_list([filter_url, random_url(), random_url()])
   let pages = [set.to_list(urls)]
-  let provider =
-    url_provider.new(fetcher_stub(pages, _), set.from_list([filter_url]))
+  let provider = url_provider.new(fetcher_stub(pages, _), [filter_url])
   let filtered_urls = set.filter(urls, fn(url) { url != filter_url })
 
   // TODO: do something like "run_times" instead of using the list size to do that
@@ -46,19 +45,21 @@ pub fn provider_filters_bot_images_test() {
 // urls will be still there.
 // This test verifies that already verified urls don't appear
 // anymore even if they are moved to other pages
-pub fn provider_ommits_already_verified_urls_if_new_appear() {
+pub fn provider_ommits_already_verified_urls_if_new_appear_test() {
   let filter_url = random_url()
   let other_url = random_url()
   let pages = [filter_url, filter_url, other_url] |> list.map(fn(x) { [x] })
 
-  let provider = url_provider.new(fetcher_stub(pages, _), set.new())
+  let provider = url_provider.new(fetcher_stub(pages, _), [])
 
   let actual =
     Ok(
       list.map(pages, fn(_) { url_provider.next(provider) |> result.unwrap("") }),
     )
 
-  actual |> should.equal(Ok([filter_url, other_url]))
+  actual
+  |> result.map(list.take_while(_, fn(str) { str != "" }))
+  |> should.equal(Ok([filter_url, other_url]))
 }
 
 fn fetcher_stub(

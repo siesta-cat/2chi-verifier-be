@@ -3,7 +3,6 @@ import api/gelbooru
 import app
 import config
 import gleam/erlang/process
-import gleam/set
 import mist
 import router
 import url_provider
@@ -31,5 +30,5 @@ pub fn main() {
 fn setup_provider(config: app.Config) -> url_provider.UrlProvider {
   let assert Ok(filter_urls) = bot.get_all(config.bot_api_base_url)
 
-  url_provider.new(gelbooru.get_images_page, set.from_list(filter_urls))
+  url_provider.new(gelbooru.get_images_page, filter_urls)
 }

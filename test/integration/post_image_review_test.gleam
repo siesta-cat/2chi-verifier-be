@@ -2,7 +2,6 @@ import api/gelbooru
 import app
 import config
 import gleam/json
-import gleam/set
 import gleeunit/should
 import router
 import token
@@ -47,7 +46,7 @@ fn post_review_context_and_body(
   let assert Ok(cfg) = config.load_from_env()
   let ctx =
     app.Context(
-      url_provider: url_provider.new(gelbooru.get_images_page, set.new()),
+      url_provider: url_provider.new(gelbooru.get_images_page, []),
       config: cfg,
     )
   let url = "https://images.com/" <> wisp.random_string(5)
