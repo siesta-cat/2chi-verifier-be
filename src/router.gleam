@@ -82,9 +82,9 @@ fn post_image_review(req: Request, ctx: app.Context) -> Response {
 
   let post_image_review_with_retries =
     persevero.execute(
-      wait_stream: persevero.exponential_backoff(200, 2),
+      wait_stream: persevero.exponential_backoff(1000, 2),
       allow: persevero.all_errors,
-      mode: persevero.MaxAttempts(5),
+      mode: persevero.MaxAttempts(6),
       operation: fn() {
         bot.post_image_review(ctx.config.bot_api_base_url, url, is_accepted)
       },
