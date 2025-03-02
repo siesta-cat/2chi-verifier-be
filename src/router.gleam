@@ -6,7 +6,9 @@ import gleam/dynamic/decode
 import gleam/http
 import gleam/io
 import gleam/json
+import gleam/string
 import gleam/string_tree
+import persevero
 import token
 import url_provider
 import wisp.{type Request, type Response}
@@ -78,13 +80,19 @@ fn post_image_review(req: Request, ctx: app.Context) -> Response {
     return: fn() { wisp.bad_request() },
   )
 
-  use _ <- given.ok(
-    in: bot.post_image_review(ctx.config.bot_api_base_url, url, is_accepted),
-    else_return: fn(msg) {
-      wisp.log_error(msg)
-      wisp.internal_server_error()
-    },
-  )
+  let post_image_review_with_retries =
+    persevero.execute(
+      wait_stream: persevero.exponential_backoff(200, 2),
+      allow: persevero.all_errors,
+      mode: persevero.MaxAttempts(5),
+      operation: fn() {
+        bot.post_image_review(ctx.config.bot_api_base_url, url, is_accepted)
+      },
+    )
+  use _ <- given.ok(in: post_image_review_with_retries, else_return: fn(msg) {
+    wisp.log_error(string.inspect(msg))
+    wisp.internal_server_error()
+  })
 
   wisp.created()
 }
