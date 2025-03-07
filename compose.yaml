@@ -1,7 +1,6 @@
 services:
   twochi-verifier-be:
     build:
-      context: .
       target: test
     command: ["gleam", "run"]
     container_name: twochi-verifier-be
