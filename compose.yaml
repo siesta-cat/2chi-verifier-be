@@ -28,7 +28,7 @@ services:
       - ./init-mongo.js:/docker-entrypoint-initdb.d/init-mongo.js:ro
 
   bot-api:
-    image: ghcr.io/siesta-cat/2chi-api:v1.2.2
+    image: ghcr.io/siesta-cat/2chi-api:v1.2.4
     container_name: 2chi-api-2chi-verifier-be
     restart: on-failure
     ports:
