@@ -15,7 +15,7 @@ packages = [
   { name = "gleam_crypto", version = "1.5.0", build_tools = ["gleam"], requirements = ["gleam_stdlib"], otp_app = "gleam_crypto", source = "hex", outer_checksum = "917BC8B87DBD584830E3B389CBCAB140FFE7CB27866D27C6D0FB87A9ECF35602" },
   { name = "gleam_erlang", version = "0.34.0", build_tools = ["gleam"], requirements = ["gleam_stdlib"], otp_app = "gleam_erlang", source = "hex", outer_checksum = "0C38F2A128BAA0CEF17C3000BD2097EB80634E239CE31A86400C4416A5D0FDCC" },
   { name = "gleam_http", version = "4.0.0", build_tools = ["gleam"], requirements = ["gleam_stdlib"], otp_app = "gleam_http", source = "hex", outer_checksum = "0A62451FC85B98062E0907659D92E6A89F5F3C0FBE4AB8046C99936BF6F91DBC" },
-  { name = "gleam_httpc", version = "4.1.0", build_tools = ["gleam"], requirements = ["gleam_erlang", "gleam_http", "gleam_stdlib"], otp_app = "gleam_httpc", source = "hex", outer_checksum = "1A38507AF26CACA145248733688703EADCB734EA971D4E34FB97B7613DECF132" },
+  { name = "gleam_httpc", version = "4.1.1", build_tools = ["gleam"], requirements = ["gleam_erlang", "gleam_http", "gleam_stdlib"], otp_app = "gleam_httpc", source = "hex", outer_checksum = "C670EBD46FC1472AD5F1F74F1D3938D1D0AC1C7531895ED1D4DDCB6F07279F43" },
   { name = "gleam_json", version = "2.3.0", build_tools = ["gleam"], requirements = ["gleam_stdlib"], otp_app = "gleam_json", source = "hex", outer_checksum = "C55C5C2B318533A8072D221C5E06E5A75711C129E420DD1CE463342106012E5D" },
   { name = "gleam_otp", version = "0.16.1", build_tools = ["gleam"], requirements = ["gleam_erlang", "gleam_stdlib"], otp_app = "gleam_otp", source = "hex", outer_checksum = "50DA1539FC8E8FA09924EB36A67A2BBB0AD6B27BCDED5A7EF627057CF69D035E" },
   { name = "gleam_regexp", version = "1.1.0", build_tools = ["gleam"], requirements = ["gleam_stdlib"], otp_app = "gleam_regexp", source = "hex", outer_checksum = "7F5E0C0BBEB3C58E57C9CB05FA9002F970C85AD4A63BA1E55CBCB35C15809179" },
@@ -45,7 +45,7 @@ given = { version = "== 5.0.4" }
 gleam_crypto = { version = "== 1.5.0" }
 gleam_erlang = { version = "== 0.34.0" }
 gleam_http = { version = "== 4.0.0" }
-gleam_httpc = { version = "== 4.1.0" }
+gleam_httpc = { version = "== 4.1.1" }
 gleam_json = { version = "== 2.3.0" }
 gleam_stdlib = { version = "== 0.59.0" }
 gleam_yielder = { version = "== 1.1.0" }
